@@ -1,0 +1,19 @@
+channels:
+  - conda-forge
+  - qiime2
+  - defaults
+  - bioconda
+dependencies:
+  - python<=3.8
+  - scikit-bio
+  - scikit-learn>=0.24
+  - biom-format
+  - pandas
+  - numpy
+  - matplotlib
+  - seaborn
+  - unifrac
+  - umap-learn
+  - pip
+  - pip:
+      - git+https://github.com/gwarmstrong/friendly-guacamole.git@main
