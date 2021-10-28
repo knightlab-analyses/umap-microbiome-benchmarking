@@ -2,8 +2,9 @@ import numpy as np
 from numpy import ma
 from scipy.stats import hmean, gmean
 
+
 def pairwise_ratios(X, Y):
-    return ma.masked_array(Y, Y == 0) / ma.masked_array(X, X== 0)
+    return ma.masked_array(Y, Y == 0) / ma.masked_array(X, X == 0)
 
 
 def worst_case_distortion(X, Y, axis=None):
@@ -34,6 +35,17 @@ def normalized_average_distortion(X, Y, axis=None, alpha_method=None,
     calc_alpha = alpha_methods.get(alpha_method, np.min)
     alpha = calc_alpha(ratios, axis=axis if alpha_use_axis else None)
     return ratios.mean(axis=axis) / alpha
+
+
+def average_fold_change_distortion(X, Y, axis=None,
+                                   alpha_use_axis=False,
+                                   ):
+    ratios = pairwise_ratios(X, Y)
+    calc_alpha = gmean
+    alpha = calc_alpha(ratios, axis=axis if alpha_use_axis else None)
+    fold_change_ratios = np.log2(ratios / alpha)
+    abs_fold_change = np.abs(fold_change_ratios)
+    return abs_fold_change.mean(axis=axis)
 
 
 def element_wise_normalized_ratios(X, Y):
